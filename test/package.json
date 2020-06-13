@@ -1,0 +1,20 @@
+{
+  "name": "@zz-studios/content-source-test",
+  "version": "0.1.0",
+  "description": "a lists of tests",
+  "scripts": {
+    "apis-node-express-sqlite": "node ./apis/node/express/sqlite.js",
+    "sources-node-api-express": "node ./sources/node/api/express.js"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "peerDependencies": {
+    "@zz-studios/vue-content-source-node-sqlite": "file:../sources/node/sqlite",
+    "@zz-studios/content-source-node-express-api": "file:../apis/node/express",
+    "@zz-studios/content-source-api": "file:../sources/node/api"
+  },
+  "author": "Frank Rizzi",
+  "license": "ISC"
+}
