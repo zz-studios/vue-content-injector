@@ -6,10 +6,8 @@
     "apis-node-express-sqlite": "node ./apis/node/express/sqlite.js",
     "sources-node-api-express": "node ./sources/node/api/express.js"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "peerDependencies": {
     "@zz-studios/vue-content-source-node-sqlite": "file:../sources/node/sqlite",
     "@zz-studios/content-source-node-express-api": "file:../apis/node/express",

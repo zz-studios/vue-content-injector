@@ -18,13 +18,13 @@
     "@babel/preset-env": "^7.9.6",
     "@purtuga/esm-webpack-plugin": "^1.2.1",
     "babel-loader": "^8.0.6",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^6.0.3",
     "parallel-webpack": "^2.4.0",
     "pascal-case": "^3.1.1",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-merge": "^4.2.2",
-    "webpack-node-externals": "^1.7.2",
+    "webpack-merge": "^5.1.1",
+    "webpack-node-externals": "^2.5.0",
     "express": "^4.17.1"
   },
   "peerDependencies": {
