@@ -10,7 +10,7 @@
     "watch": "webpack --config build/webpack.dev.js --mode=development --watch"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
