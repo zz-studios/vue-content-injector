@@ -4,9 +4,9 @@ import { wrapInPromise } from './utils'
 
 export class ContentInjector {
 	#_private = {}
-	constructor(content) {
-
-		this.getContent = wrapInPromise(content)
+	constructor(config) {
+		this.config = config
+		this.getContent = wrapInPromise(config.content)
 	}
 
 	getRoute = ({ name, path }) => new Promise(async (resolve, reject) => {
@@ -28,6 +28,33 @@ export class ContentInjector {
 		this.#_private.getRoutes.then(routes => {
 			resolve(routes.map(contentRoute => new InjectorRoute(contentRoute, this)))
 		})
+	})
+
+	// TODO: optional saveRoute? 
+	// Q: does it belong here?
+	// Q: can it go in another class?
+	// - for now, put here and refactor later - need to get this working!
+
+	// TODO: is the third parameter actually content? Or is it something else, like props, etc...
+	// TODO: this is NEVER called? Why? Oh, not on the route, on the injector!?
+	// TODO: figure out the missing piece in the chain!
+	saveRoute = ({ route }) => new Promise(async (resolve, reject) => {
+		// exit this if we're not in the 'cm' mode
+		if (this.config.mode != 'cm') reject('Can only save in a mode of \'cm\'')
+
+		//Q: this saveRoute is on the content as a whole? right?
+		if (!this.#_private.saveRoute) {
+			const content = await this.getContent()
+			// TODO: this.findContentRoute for this? What is the equivalent?
+			// TODO: we have to, because it's going to findContentRoute - but then what?
+			// - issue is that "content" doesn't have a saveRoute?
+			this.#_private.saveRoute = wrapInPromise(content.saveRoute) // TODO: possibly put this this.findContentRoute method in another library?
+		}
+
+
+
+		console.log('prop-injector/content.injector: calling saveRoute')
+		this.#_private.saveRoute({ route }).then(route => resolve(route))
 	})
 
 	inject(route) { // the to.matched!
@@ -77,7 +104,8 @@ export class ContentInjector {
 				}
 				return null // we didn't find anything at all
 			}
-			this.getRoutes.then(routes => resolve(findContentRouteRecursive(routes)))
+			console.log('this.getRoutes', this.getRoutes)
+			this.getRoutes().then(routes => resolve(findContentRouteRecursive(routes)))
 		})
 	}
 

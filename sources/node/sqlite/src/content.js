@@ -72,7 +72,7 @@ export class Content {
 
 	getRoute = ({ name, path }) => new Promise(async (resolve, reject) => {
 		const db = this.#db
-
+		console.log('getRoute', name, path)
 
 		// TODO: always return the props with the route
 		// - but what of children?
@@ -80,16 +80,17 @@ export class Content {
 				from route 
 				where ${(name !== undefined ? 'name = $name' : 'path = $path')}`
 
-		const routeQueryParams = { $name: name, $path: path } //
+		const routeQueryParams = name !== undefined ? { $name: name } : { $path: path } //
 
-
+		console.log('routeQuery', routeQuery)
 		db.get(routeQuery, routeQueryParams, (err, row) => {
 			if (err) {
+				console.log('err', err)
 				reject(warnSqlite(err, 'getRoute Error'))
 				return
 			}
 			if (!row) {
-				reject(warnSqlite({ message: 'route not found'}, 'getRoute Error'))
+				reject(warnSqlite({ message: 'route not found' }, 'getRoute Error', 404))
 				return
 			}
 
@@ -138,6 +139,92 @@ export class Content {
 
 	})
 
+	// TODO: SAVE CONTENT here
+	// Q: do we need name and path if already have the route itself?
+	saveRoute = ({ name, route }) => new Promise(async (resolve, reject) => {
+		const db = this.#db
+
+		console.log('sources/node/sqlite/content: saveRoute1')
+
+		// Q: can we update the path etc?
+
+		// TODO: Q: are we updating the route or the route's content here?
+		// - also, we need to do it for each child right?
+		// const saveRouteQuery = `update route set path = $path, name, parentPath
+		// 		from route 
+		// 		where ${(route.name !== undefined ? 'name = $name' : 'path = $path')}`
+
+		// TODO: update all routes!
+		// const saveRouteQuery = `update route set path = $path, name, parentPath
+		// 		from route 
+		// 		where ${(route.name !== undefined ? 'name = $name' : 'path = $path')}`
+
+		// const routeQueryParams = { $name: route.name, $path: route.path }
+
+		// TODO: save props
+		// TODO: save component -> name -> props, etc
+
+
+		// TODO: Save children? no
+		// TODO: save props? yes
+		// updateProp
+		// - ah right: the code should be IN the route? right?
+		// - the select code is, hmm? in children?
+		// - no - just the children code was - and we're NOT saving chlidren here, just the current routes props!
+		// so:
+		// TODO: create the execs
+		// - which means looping right?
+		// - how do I know what was updated, or should I save it all no matter what? Yeah, why not!
+		// console.log('saving?', saveRouteQuery)
+		// TODO: get the route and save?
+		this.getRoute(name != undefined ? { name } : route).then(tblRoute => { // yes, this fuction will unpack the path and name!
+
+			console.log('tblRoute', tblRoute)
+			// TODO: why is it props.content and not props.default?
+			// - because tblRoute may not be the same route...!!!
+			// - one is home and one is ''
+			// - which one were we at?
+			// TODO: now we need to update the tblRoute with the info from route!
+			// - props and all!!!
+			// repository pattern?
+			// Q: what was the difference here between components and props and why do I have both?
+			Object.keys(tblRoute.props).forEach(routerView => {
+				console.log('routerView', routerView)
+				// TODO: should I be looping through tblRoute.props, route.props or both?
+				// TODO: need to do "add/create" - right now it will only update known props
+				const routeProps = route.props[routerView]
+
+				// TODO: undefined here - because different route, right? (/ vs. home?)
+				tblRoute.props[routerView].props.forEach(tblProp => {
+					// TODO: get the prop from route that matches
+					const routeProp = routeProps.find(p => p.name == tblProp.name) // TODO: was this nested? 
+					tblProp.value = routeProp.value // TODO: change only what changed?
+				})
+				// TODO: get the prop from route that matches
+			})
+
+
+			// // This isn't what we need - this is just what COMPONENT is in what routerView, not what Props there are
+			// Object.keys(tblRoute.components).forEach(routerView => {
+			// 	const component = route.components[routerView]
+			// 	tblRoute.components[routerView].props.forEach(tblProp => {
+			// 		// TODO: get the prop from route that matches
+			// 		component.props.find() // TODO: was this nested? 
+			// 	})
+			// 	// TODO: get the prop from route that matches
+			// 	route.props.find()
+			// 	route.components.find()
+			// })
+
+			tblRoute.save()
+			// db.exec(saveRouteQuery, routeQueryParams)
+			// Q: Should we wrap this with "update component" methods?
+			// - what did the DB structure look like again?
+		}).catch(err => {
+			console.log('err', err)
+			reject(err)
+		})
+	})
 
 	fill = (content) => new Promise(async (resolve, reject) => {
 		const db = await this.create()

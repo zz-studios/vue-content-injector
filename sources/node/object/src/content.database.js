@@ -27,8 +27,18 @@ export class ContentDatabase {
 				this.insertProp = db.prepare("insert into prop(path, routerView, name, value) VALUES (?, ?, ?, ?)")
 				this.getRoutes = db.prepare("select path, name, parentPath from route where path = '' and parentPath is null")
 				this.getRoute = db.prepare("select path, name, parentPath from route where name = ? or path = ?")
+
+				
+				// TODO: this needs more nuance...
+				// - have to loop, right? Or look to call this?
+				// - have to saveProps where I getProps?
+				this.saveRoute = db.prepare("update route set set value= path, name, parentPath from route where name = ? or path = ?")
+
 				this.getChildren = db.prepare("select path, name, parentPath from route where parentPath = ?")
 				this.getProps = db.prepare("select path, routerView, name, value from prop where path = ?")
+
+				// TODO: can it update a list
+				this.updateProp = db.prepare("update prop set value = ? from prop where path = ? and routerView = ? and name = ?")
 
 				this.initialized = true
 				resolve(this)

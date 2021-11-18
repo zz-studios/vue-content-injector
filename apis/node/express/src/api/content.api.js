@@ -1,5 +1,8 @@
 const { ApiBase } = require('../api.base')
 
+// TODO: where here to I specify the cd vs cm?
+// - what config is being passed?
+
 export class ContentApi extends ApiBase {
     constructor(contentService) {
         super('content')
@@ -17,18 +20,19 @@ export class ContentApi extends ApiBase {
         // /api/route?path=/test
         // /api/route?name=test
         this.router.get(['/routes', '/route'], (req, res) => {
+					const { send } = this
             const path = req.query.path
             const name = req.query.name
 
             console.log('path', path)
             if (path !== undefined) {
                 this.contentService.getRoute({ path, name })
-                    .then(route => this.send(res, route))
-                    .catch(err => this.send(res, err))
+                    .then(route => send(res, route))
+                    .catch(err => send(res, err))
             } else {
                 this.contentService.getRoutes()
-                    .then(routes => this.send(res, routes))
-                    .catch(err => this.send(res, err))
+                    .then(routes => send(res, routes))
+                    .catch(err => send(res, err))
             }
         })
 

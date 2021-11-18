@@ -14,21 +14,25 @@ const express = require('express')
 
 
 export class ApiBase {
-    constructor(path) {
-        this.path = '/' + path
-        this.router = express.Router()
-    }
+  constructor(path) {
+    this.path = '/' + path
+    this.router = express.Router()
+  }
 
-    // get(path, func) {
-    //     this.router.get(this.path + path, func)
-    // }
-
-
+  // get(path, func) {
+  //     this.router.get(this.path + path, func)
+  // }
 
 
-    // custom send to set type and replacer more susinctly
-    send(res, obj) { // TODO: custom replacer for more things?
-        res.type('json').send(JSON.stringify(obj)) //, replacer
-    }
+
+
+  // custom send to set type and replacer more susinctly
+  send(res, obj) { // TODO: custom replacer for more things?
+    res.type('json').send(JSON.stringify(obj)) //, replacer
+  }
+
+  receive(obj) { // TODO: custom replacer for more things?
+    return JSON.parse(obj) //, replacer
+  }
 }
 

@@ -50,6 +50,7 @@ export class Content {
 			const dbContent = await this.#dbContent.init()
 			dbContent.getRoute.run(name, path, (err, row) => {
 				if (err) {
+					console.log('err2', err)
 					reject({ message: 'getRoute Error', err })
 					return
 				}
@@ -63,6 +64,36 @@ export class Content {
 		})
 
 	}
+
+	// TODO: do the real saveRoute work here!
+	// TODO: is this saveRoute or really saveProps?
+	// - can we update props?
+	saveRoute({ name, path, content }) { // TODO: aren't I saving myself? No - 
+		return new Promise(async (resolve, reject) => {
+			const dbContent = await this.#dbContent.init()
+			dbContent.saveRoute.run(name, path, content, (err, row) => {
+
+				// TODO: foreach is wrong here - or rather they should all be running in a transaction of some sort...
+				dbContent.serialize(() => {
+					content.routes.forEach(route => {
+						route.props.forEach(prop => {
+							// TODO: don't update if same?
+							// - .each is for each result, but I want to run it for each prop!
+							dbContent.updateProp.run(prop.value, route.path, route.routerView, route.nam, (err, row) => {
+								if (err) {
+									reject({ message: 'updateProp Error', err })
+									return
+								}
+							})
+						})
+					})
+				})
+				resolve(row)
+			})
+		})
+
+	}
+
 
 	fill(content) {
 		return new Promise(async (resolve, reject) => {

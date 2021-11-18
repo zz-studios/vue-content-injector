@@ -14,7 +14,7 @@ const sqliteContent = new SqliteContent({ filename: ':memory:' })
 const testcontent = require('../../../content')
 
 sqliteContent.fill(testcontent).then(async (content) => { // note: content = sqliteContent 
-	const apiServer = new ApiServer({ content, port: 8090 })
+	const apiServer = new ApiServer({ content, port: 8090, mode: 'cd' })
 
 	// TODO: in a real app you can choose to do:
 	// const app = new express()

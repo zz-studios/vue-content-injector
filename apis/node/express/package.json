@@ -10,22 +10,22 @@
     "watch": "webpack --config build/webpack.dev.js --mode=development --watch"
   },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@purtuga/esm-webpack-plugin": "^1.2.1",
-    "babel-loader": "^8.0.6",
-    "copy-webpack-plugin": "^6.0.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@purtuga/esm-webpack-plugin": "^1.5.0",
+    "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^6.4.1",
+    "express": "^4.17.1",
     "parallel-webpack": "^2.4.0",
-    "pascal-case": "^3.1.1",
-    "webpack": "^4.41.5",
+    "pascal-case": "^3.1.2",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.3.10",
-    "webpack-merge": "^5.1.1",
-    "webpack-node-externals": "^2.5.0",
-    "express": "^4.17.1"
+    "webpack-merge": "^5.7.3",
+    "webpack-node-externals": "^2.5.2"
   },
   "peerDependencies": {
     "express": "^4.17.1"

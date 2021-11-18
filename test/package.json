@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "a lists of tests",
   "scripts": {
-    "apis-node-express-sqlite": "node ./apis/node/express/sqlite.js",
+    "apis-node-express-sqlite-cm": "node ./apis/node/express/sqlite-cm.js",
+    "apis-node-express-sqlite-cd": "node ./apis/node/express/sqlite-cd.js",
     "sources-node-api-express": "node ./sources/node/api/express.js"
   },
   "dependencies": {},

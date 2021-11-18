@@ -18,7 +18,7 @@ const createConfig = ({ target }) => {
         ], // this excludes node_modules!
         // watch: true,
         // mode: 'development',
-        // devtool: 'source-map', //cheap-module-
+        devtool: 'source-map', //cheap-module-
         //entry: glob.sync('./src/**'),
         entry: './src/index.js',
         output: {
@@ -26,7 +26,7 @@ const createConfig = ({ target }) => {
             filename: 'index.' + target + '.js',
             library: libraryName,
             libraryTarget: target, // umd?
-            umdNamedDefine: true
+            umdNamedDefine: true,
         },
         module: {
             rules: [{
@@ -66,6 +66,7 @@ const createConfig = ({ target }) => {
             fs: "empty"
         },
         plugins: [
+					'@babel/plugin-transform-typescript'
             //new EsmWebpackPlugin()
             //new VueLoaderPlugin(),
             // new CopyPlugin([

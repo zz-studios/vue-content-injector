@@ -39,7 +39,7 @@ export const getConfig = (Vue) => Vue.prototype[PROP_NAME].config
 
 const setContentInjector = (Vue) => {
 	const config = getConfig(Vue)
-	getPrototype(Vue).content = new ContentInjector(config.content)
+	getPrototype(Vue).content = new ContentInjector(config)
 }
 
 export const getContent = (Vue) => Vue.prototype[PROP_NAME].content

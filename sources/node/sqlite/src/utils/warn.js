@@ -1,4 +1,5 @@
 import { isBrowser, hasPromiseSupport, hasMutationObserverSupport, getNoWarn } from './env'
+const util = require('util')
 
 /**
  * Log a warning message to the console with formatting
@@ -6,15 +7,15 @@ import { isBrowser, hasPromiseSupport, hasMutationObserverSupport, getNoWarn } f
  */
 export const warn = (message, source = null) => /* istanbul ignore next */ {
   if (!getNoWarn()) {
-    console.warn(`[@zz-studios/vue-content-source-node-sqlite warn]: ${source ? `${source} - ` : ''}${message}`)
+    console.warn(`[@zz-studios/vue-content-source-node-sqlite warn]: ${source ? `${util.inspect(source)} - ` : ''}${message}`)
   }
 }
 
-export const warnSqlite = (err, message) => {
+export const warnSqlite = (err, message, statusCode) => {
   // console.log(message)
   if (err) {
     warn(message, err)
-    return ({ message, err })
+    return ({ message, err, statusCode })
   } else {
     return
   }

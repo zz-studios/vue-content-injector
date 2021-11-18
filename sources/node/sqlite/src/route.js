@@ -38,6 +38,21 @@ export class Route {
 		)
 	})
 
+	save() {
+		const { path, props } = this
+		var queries = Object.keys(props).map(routerView =>
+			// TODO: check if we need to add or remove an entry, not just update if existing
+			props[routerView].filter(prop => prop.value).map(prop =>
+				"update prop set value = '" + prop.value + "' where path = '" + path + "' and routerView = '" + routerView + "' and name = '" + prop.name + "'"
+			)
+		)
+		console.log('queries', queries)
+		// db.exec("update prop set value = ? from prop where path = ? and routerView = ? and name = ?")
+			// TODO: transactions
+			// TODO: loop through components and save also
+			// Q: what to do with parent stuff?
+			updateProp.exec(queries.join(';'))
+	}
 
 	// props = () => new Promise(async (resolve, reject) => {
 	// 	const props = {}

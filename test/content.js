@@ -2,7 +2,7 @@
 
 module.exports = {
 	routes: [ // not an array, a key/value pair of full routes
-		// TODO: what happen when a route has moved/changed - hmmmm.... name?
+		// TODO: what happens when a route has moved/changed - hmmmm.... name?
 		{
 			path: '',
 			props: {
@@ -55,6 +55,11 @@ module.exports = {
 			path: '/test1/test2/test3',
 			props: {}
 
+		}, { // TODO: needed?
+			path: 'cms',
+			props: {}
+
 		}
+
 	]
 }

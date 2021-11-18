@@ -18,7 +18,7 @@ const createConfig = ({ target }) => {
         ], // this excludes node_modules!
         // watch: true,
         // mode: 'development',
-        // devtool: 'source-map', //cheap-module-
+        devtool: 'source-map', //cheap-module-
         //entry: glob.sync('./src/**'),
         entry: './src/index.js',
         output: {

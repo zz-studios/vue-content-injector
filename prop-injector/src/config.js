@@ -1,5 +1,5 @@
 export class InjectorConfig {
-	constructor(Vue, { name, content, router }) {
+	constructor(Vue, { name, content, router, mode }) {
 		this.name = name
 
 		this.router = router ? router : Vue.prototype.$router
@@ -13,5 +13,7 @@ export class InjectorConfig {
 		if (!this.content) {
 			throw new Error('Please pass a content object or function to the configuration object.');
 		}
+
+		this.mode = mode ? mode : 'cd'
 	}
 }

@@ -11,6 +11,7 @@ export class ContentService {
     getRoute = ({ name, path }) => new Promise(async (resolve, reject) => {
         if (!this.#_private.getRoute) {
             const content = await this.getContent()
+						// TODO: it seems that findContentRoute isn't in this project anymore?
             this.#_private.getRoute = content.getRoute ? wrapInPromise(content.getRoute) : this.findContentRoute // TODO: possibly put this this.findContentRoute method in another library?
         }
 

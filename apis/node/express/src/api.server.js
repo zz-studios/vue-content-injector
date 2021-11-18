@@ -1,6 +1,9 @@
 import { ContentApi } from './api/content.api'
 import { ContentService } from './services/content.service'
 
+import { SaveApi } from './api/save.api'
+import { SaveService } from './services/save.service'
+
 const express = require('express')
 
 const morgan = require('morgan')
@@ -11,22 +14,33 @@ const testfrank = [...test]
 // TODO: pass root path and such?
 // note: remember, the site would need to hoist this up
 export class ApiServer {
-	constructor({ content, port, host }) { // it matters not where the content is from...
+	constructor({ content, port, host, mode }) { // it matters not where the content is from...
 		let contentService = new ContentService(content)
 
 		// TODO: do we want to move this to getApi methods or is that too much?
 		let contentApi = new ContentApi(contentService)
 
-
-		
+		this.mode = mode ? mode : 'cd'
 		this.port = port ? port : 8081
 		this.host = host ? host : '0.0.0.0'
 
 		this.apis = [
 			contentApi,
+      //saveApi if mode = 'cm'?
 		]
 
+		console.log('this.mode', this.mode)
+		if(this.mode == 'cm') {
+			let saveService = new SaveService(content)
+			let saveApi = new SaveApi(saveService)
+			this.apis.push(saveApi)
+		}
+
+
 		this.app = express() // you can NEST apps - because that's what we really wanted, right?
+		this.app.use(express.urlencoded({ extended: false }))
+		this.app.use(express.json())
+		
 		this.app.locals.title = 'Content Api App'
 
 		if (process.env.NODE_ENV == 'development') {
